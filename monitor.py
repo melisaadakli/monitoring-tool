@@ -1,6 +1,7 @@
 import argparse
 import requests
 import time
+import sys
 
 
 def check_health_once(url, timeout=5):
@@ -96,7 +97,8 @@ def main():
     else:
         print("Status: DOWN ❌")
         print(f"Last error: {result.get('error')}")
-
+    # Exit codes for CI/CD and schedulers
+    sys.exit(0 if result["status"] == "UP" else 1)
 
 if __name__ == "__main__":
     main()
