@@ -1,234 +1,109 @@
-#### **Monitoring \& Health Check Tool**
+# Monitoring Tool
 
+A simple but production-oriented Python CLI tool for monitoring HTTP services.
+It performs health checks, measures response time, supports retries, logging,
+JSON output, and configuration files.
 
+This project was built incrementally to demonstrate a DevOps / SRE-oriented
+approach to tool development.
 
-CLI-based Python tool for monitoring HTTP services and measuring response time with a DevOps / SRE mindset.
+---
 
-**Usage:**
+## Features
+- HTTP health checks with retry logic
+- Response time measurement (milliseconds)
+- Exit codes for CI/CD compatibility (0 = UP, 1 = DOWN)
+- File-based logging with timestamps
+- Optional JSON output for integrations
+- Config file support for environment-based configuration
 
+---
 
+## Installation
+
+```bash
+pip install -r requirements.txt
+Usage
+Basic check
+bash
+Kodu kopyala
 python monitor.py --url https://example.com
-
-
-**Development Progress**
----
-
-
-
-**Day 1 — Project Setup \& CLI Skeleton**
-
-
-
-**Goal:** Create a real CLI tool structure
-
-
-
-**What was done:**
-
-
-
-Project structure created
-
-
-
-CLI argument parsing planned
-
-
-
-Base files added (monitor.py, README, requirements.txt)
-
-
-
-**Concepts:**
-
-
-
-CLI design
-
-
-
-Tool mindset
-
-
-
-Project structuring
-
-
-
-
-
-**Day 2 — HTTP Health Check**
-
-
-
-**Goal:** Check if a service is reachable
-
-
-
-**What was done:**
-
-
-
-HTTP GET request using requests
-
-
-
-Status code validation
-
-
-
-Response time measurement
-
-
-
-**Example Output:**
-
-
-
-Status: UP
-
-HTTP Code: 200
-
-Response Time: 120 ms
-
-
-
-**Concepts:**
-
-
-
-HTTP fundamentals
-
-
-
-Monitoring basics
-
-
-
-Latency awareness
-
-
-
-
-
-**Day 3 — Error Handling \& Stability**
-
-
-
-**Goal:** Handle failures gracefully
-
-
-
-**What was done:**
-
-
-
-Exception handling for connection errors
-
-
-
-Timeout detection
-
-
-
-Clear and user-friendly error messages
-
-
-
-**Concepts:**
-
-
-
-Defensive programming
-
-
-
-Troubleshooting mindset
-
-
-
-Observability basics
-
- ### Day 4 — Exit Codes & CI/CD Compatibility
-**Goal:** Make the tool automation-friendly
-
-**What was done:**
-- Exit codes added for monitoring systems
-- `0` returned when service is healthy (UP)
-- `1` returned when service is unhealthy (DOWN)
-
-**Why this matters:**
-- Enables usage in CI/CD pipelines
-- Compatible with cron jobs, schedulers, and monitoring tools
-
-**Concepts:**
-- Unix exit codes
-- CI/CD integration
-- Production readiness
-
----
-
-### Day 5 — Logging & Structured Output
-**Goal:** Improve observability and integrations
-
-**What was done:**
-- File-based logging using Python `logging`
-- Timestamped and structured log entries
-- Optional JSON output for integrations (`--json` flag)
-
-**Example Log Entry:**
-```text
+Using a config file
+bash
+Kodu kopyala
+python monitor.py --config config.json
+Config + CLI override
+bash
+Kodu kopyala
+python monitor.py --config config.json --retries 1
+JSON output (for integrations)
+bash
+Kodu kopyala
+python monitor.py --url https://example.com --json
+Exit code example (PowerShell)
+powershell
+Kodu kopyala
+python monitor.py --url https://example.com
+echo $LASTEXITCODE
+Logging
+Each execution writes a structured log entry to monitor.log.
+
+Example log entry:
+
+text
+Kodu kopyala
 2026-01-16 21:59:05 INFO target=https://example.com status=UP code=200 time_ms=2301 attempts=1
-Example JSON Output:
+Configuration File
+Example config.json:
 
 json
 Kodu kopyala
 {
-  "target": "https://example.com",
-  "status": "UP",
-  "attempts_used": 1,
-  "retries_configured": 3,
-  "http_code": 200,
-  "response_time_ms": 670,
-  "error": null
+  "url": "https://example.com",
+  "retries": 3,
+  "delay": 1,
+  "timeout": 5,
+  "log_file": "monitor.log"
 }
-Concepts:
+CLI arguments always override values from the config file.
 
-Logging & observability
+Development Progress
+Day 1–3
+Project setup and CLI skeleton
 
-Structured output
+HTTP health check implementation
 
-Tool integration readiness
+Retry logic and response time measurement
 
+Day 4
+Exit codes added for CI/CD and schedulers
 
+Tool made automation-friendly
 
-**What This Project Demonstrates:**
+Day 5
+Logging with timestamps and structured messages
 
+Optional JSON output for integrations
 
+Day 6
+Config file support (--config)
 
+CLI override logic for flexible environments
+
+Day 7
+Documentation polished
+
+requirements.txt and .gitignore added
+
+Project finalized for public use
+
+What This Project Demonstrates
 Practical Python usage for system tooling
 
+Monitoring and troubleshooting mindset
 
+CLI tool design
 
-Monitoring \& health check concepts
-
-
-
-CLI tool development
-
-
-
-Error handling and resilience
-
-
+Observability (logging, structured output)
 
 DevOps / SRE-oriented thinking
-
-
-
-
-
-**Author**
-
-Melisa Adaklı Mertdoğan
-
