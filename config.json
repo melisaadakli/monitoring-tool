@@ -1,0 +1,7 @@
+{
+  "url": "https://example.com",
+  "retries": 3,
+  "delay": 1,
+  "timeout": 5,
+  "log_file": "monitor.log"
+}

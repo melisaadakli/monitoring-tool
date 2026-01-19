@@ -4,6 +4,10 @@ import time
 import sys
 import logging
 import json
+def load_config(path: str) -> dict:
+    with open(path, "r", encoding="utf-8") as f:
+        return json.load(f)
+
 def setup_logger(log_file="monitor.log"):
     logging.basicConfig(
         filename=log_file,
@@ -61,8 +65,12 @@ def main():
     parser = argparse.ArgumentParser(description="Simple HTTP health check tool with retry logic")
 
     parser.add_argument(
+    "--config",
+    help="Path to JSON config file",
+    )
+
+    parser.add_argument(
         "--url",
-        required=True,
         help="Target URL to monitor (e.g. https://example.com)",
     )
     parser.add_argument(
@@ -97,6 +105,24 @@ def main():
 
 
     args = parser.parse_args()
+    # Load config file if provided
+    if args.config:
+        cfg = load_config(args.config)
+
+        if not args.url:
+            args.url = cfg.get("url")
+
+        if args.retries == 3:  # default value
+            args.retries = cfg.get("retries", args.retries)
+
+        if args.delay == 1:    # default value
+            args.delay = cfg.get("delay", args.delay)
+
+        if args.timeout == 5:  # default value
+            args.timeout = cfg.get("timeout", args.timeout)
+
+        if args.log_file == "monitor.log":
+            args.log_file = cfg.get("log_file", args.log_file)
     setup_logger(args.log_file)
 
     result = check_health_with_retry(
